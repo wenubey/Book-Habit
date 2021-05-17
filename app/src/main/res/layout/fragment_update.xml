@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="24dp"
-    tools:context=".fragments.add.AddFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.update.UpdateFragment"
+    android:padding="24dp">
 
     <EditText
-        android:id="@+id/bookName_et"
+        android:id="@+id/updateBookName_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:ems="10"
         android:hint="Book Name"
         android:inputType="textPersonName"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="24dp" />
-
-    <EditText
-        android:id="@+id/authorName_et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Author Name"
-        app:layout_constraintTop_toBottomOf="@+id/bookName_et"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <EditText
-        android:id="@+id/pageCount_et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="Page Count"
-        android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@+id/authorName_et"
         tools:layout_editor_absoluteX="16dp" />
 
-    <Button
-        android:id="@+id/add_btn"
+    <EditText
+        android:id="@+id/updateAuthorName_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Add"
-        app:layout_constraintTop_toBottomOf="@+id/pageCount_et"
-        tools:layout_editor_absoluteX="159dp" />
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Author Name"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/updateBookName_et"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <EditText
+        android:id="@+id/updatePage_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Page count"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/updateAuthorName_et"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/update_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Update"
+        app:layout_constraintTop_toBottomOf="@+id/updatePage_et"
+        tools:layout_editor_absoluteX="0dp" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
