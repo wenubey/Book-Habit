@@ -16,12 +16,16 @@ import com.mertfatih.bookhabit.model.Book
 import com.mertfatih.bookhabit.viewmodel.BookViewModel
 import kotlinx.android.synthetic.main.fragment_update.*
 import kotlinx.android.synthetic.main.fragment_update.view.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class UpdateFragment : Fragment() {
 
     private val args by navArgs<UpdateFragmentArgs>()
 
     private lateinit var mBookViewModel: BookViewModel
+
+    private val currentDateTime: LocalDateTime = LocalDateTime.now()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -30,9 +34,9 @@ class UpdateFragment : Fragment() {
 
         mBookViewModel = ViewModelProvider(this).get(BookViewModel::class.java)
 
-        view.updateBookName_et.setText(args.currentBook.bookName)
-        view.updateAuthorName_et.setText(args.currentBook.authorName)
-        view.updatePage_et.setText(args.currentBook.bookPageCount.toString())
+        view.date_update_txt.text = "You have been reading since: " + args.currentBook.date
+        view.page_count_update_txt.text = "Page count of this book: " + args.currentBook.bookPageCount
+        view.updatePage_et.setText(args.currentBook.currentPage.toString())
 
         view.update_btn.setOnClickListener{
             updateItem()
@@ -43,24 +47,27 @@ class UpdateFragment : Fragment() {
     }
 
     private fun updateItem() {
-        val bookName = updateBookName_et.text.toString()
-        val authorName = updateAuthorName_et.text.toString()
-        val page = Integer.parseInt(updatePage_et.text.toString())
-
-        if(inputCheck(bookName, authorName, updatePage_et.text)) {
-            val updatedBook = Book(args.currentBook.id, bookName, authorName, page)
+        val currentPage = Integer.parseInt(updatePage_et.text.toString())
+        val updatedPage = currentPage + args.currentBook.currentPage
+        if(inputCheck(updatePage_et.text, currentPage, updatedPage) && progress(currentPage) <= 100) {
+            val updatedBook = Book(args.currentBook.id, args.currentBook.bookName, args.currentBook.authorName, args.currentBook.bookPageCount, currentDateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), updatedPage, progress(updatedPage))
 
             mBookViewModel.updateBook(updatedBook)
             Toast.makeText(requireContext(), "Successfully updated", Toast.LENGTH_LONG).show()
 
             findNavController().navigate(R.id.action_updateFragment_to_listFragment)
         } else {
-            Toast.makeText(requireContext(), "Please fill out all fields ", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Please enter a valid page number", Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun inputCheck(bookName: String, authorName: String, page: Editable): Boolean {
-        return !(TextUtils.isEmpty(bookName) && TextUtils.isEmpty(authorName) && page.isEmpty())
+    private fun inputCheck(page: Editable, currentPage: Int, updatedPage: Int): Boolean {
+        return page.isNotEmpty() && args.currentBook.bookPageCount >= currentPage && updatedPage <= args.currentBook.bookPageCount
     }
+
+    private fun progress(currentPage: Int): Int{
+        return (100 * currentPage) / args.currentBook.bookPageCount
+    }
+
 
 }

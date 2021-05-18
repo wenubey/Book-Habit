@@ -16,6 +16,4 @@ interface BookDao {
     @Query("SELECT * FROM book_table ORDER BY book_id ASC")
     fun readAllData(): LiveData<List<Book>>
 
-
-
 }

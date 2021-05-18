@@ -3,15 +3,19 @@ package com.mertfatih.bookhabit.fragments.list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.graphics.Color
+import androidx.core.graphics.toColor
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mertfatih.bookhabit.R
 import com.mertfatih.bookhabit.model.Book
 import kotlinx.android.synthetic.main.custom_row.view.*
+import java.util.logging.Handler
 
 class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>(){
 
     private var bookList = emptyList<Book>()
+
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -24,10 +28,20 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>(){
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentBook = bookList[position]
-        //TODO("proggres bar")
+
         holder.itemView.name_txt.text = currentBook.bookName
         holder.itemView.author_txt.text = currentBook.authorName
-        holder.itemView.page_txt.text = currentBook.bookPageCount.toString()
+        holder.itemView.page_txt.text = currentBook.currentPage.toString()
+        holder.itemView.progress_bar_count.text = "%" + currentBook.progress.toString()
+
+        holder.itemView.progressBar.apply {
+            progressMax = 100f
+            setProgressWithAnimation(currentBook.progress.toFloat(), 1000)
+
+        }
+
+
+
         holder.itemView.rowLayout.setOnClickListener {
             val action = ListFragmentDirections.actionListFragmentToUpdateFragment(currentBook)
             holder.itemView.findNavController().navigate(action)

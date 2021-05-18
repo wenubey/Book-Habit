@@ -15,11 +15,15 @@ import com.mertfatih.bookhabit.model.Book
 import com.mertfatih.bookhabit.viewmodel.BookViewModel
 import kotlinx.android.synthetic.main.fragment_add.*
 import kotlinx.android.synthetic.main.fragment_add.view.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class AddFragment : Fragment() {
 
     private lateinit var mBookViewModel: BookViewModel
+    private val currentDateTime: LocalDateTime = LocalDateTime.now()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -41,7 +45,7 @@ class AddFragment : Fragment() {
         val bookPage = pageCount_et.text
 
         if(inputCheck(bookName, authorName, bookPage)) {
-            val book = Book(0, bookName, authorName, Integer.parseInt(bookPage.toString()))
+            val book = Book(0, bookName, authorName, Integer.parseInt(bookPage.toString()), currentDateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), 0, 0)
 
             mBookViewModel.addBook(book)
             Toast.makeText(requireContext(), "Successfully Added!!!", Toast.LENGTH_LONG).show()

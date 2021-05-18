@@ -18,6 +18,12 @@ data class Book(
     val authorName: String,
     @ColumnInfo(name = "book_page")
     val bookPageCount: Int,
+    @ColumnInfo(name = "date")
+    val date: String,
+    @ColumnInfo(name = "current_page")
+    val currentPage: Int,
+    @ColumnInfo(name = "progress")
+    val progress: Int
 
 ): Parcelable
 
