@@ -1,20 +1,89 @@
 package com.mertfatih.bookhabit
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
+import androidx.core.view.GravityCompat
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.android.material.navigation.NavigationView
+import com.mertfatih.bookhabit.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navController: NavController
+    private lateinit var binding: ActivityMainBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setupActionBarWithNavController(findNavController(R.id.fragment))
+
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
+        navController = navHostFragment.navController
+        NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
+        NavigationUI.setupWithNavController(binding.navView, navController)
+        binding.navView.setNavigationItemSelectedListener(this)
+
+        setupActionBarWithNavController(navController)
+
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onContextItemSelected(item)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+
+            R.id.addBook -> {
+                val destination = R.id.addFragment
+                if(isValidDestination(destination)) {
+                    navController.navigate(destination)
+                }
+            }
+            R.id.statisticScreen -> {
+                val destination = R.id.statisticFragment
+                if(isValidDestination(destination)) {
+                    navController.navigate(destination)
+                }
+            }
+
+        }
+        item.isChecked = true
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    private fun isValidDestination(destination: Int): Boolean {
+        return destination != navController.currentDestination!!.id
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.fragment)
-        return navController.navigateUp() || super.onSupportNavigateUp()
+        return NavigationUI.navigateUp(navController, binding.drawerLayout)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.statisticScreen -> {
+                return binding.drawerLayout.isDrawerOpen(GravityCompat.START)
+            }
+            R.id.addBook -> {
+                return binding.drawerLayout.isDrawerOpen(GravityCompat.START)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

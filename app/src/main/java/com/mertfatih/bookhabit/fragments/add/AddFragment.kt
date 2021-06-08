@@ -3,10 +3,8 @@ package com.mertfatih.bookhabit.fragments.add
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -35,6 +33,7 @@ class AddFragment : Fragment() {
         view.add_btn.setOnClickListener{
             insertDataToDatabase()
         }
+
 
         return view
     }

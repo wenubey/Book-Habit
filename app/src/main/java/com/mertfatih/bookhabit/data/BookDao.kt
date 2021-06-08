@@ -13,7 +13,18 @@ interface BookDao {
     @Update
     suspend fun updateBook(book: Book)
 
+    @Delete
+    suspend fun deleteBook(book: Book)
+
     @Query("SELECT * FROM book_table ORDER BY book_id ASC")
     fun readAllData(): LiveData<List<Book>>
 
+    @Query("SELECT COUNT(*) FROM book_table")
+    fun getBookCount(): LiveData<Int>
+
+    @Query("SELECT SUM(current_page) FROM book_table")
+    fun getSumPageCount(): LiveData<Int>
+
+    @Query("SELECT date FROM book_table ORDER BY date ASC")
+    fun getFirstDate(): LiveData<String>
 }

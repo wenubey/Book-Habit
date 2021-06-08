@@ -14,11 +14,17 @@ import kotlinx.coroutines.launch
 class BookViewModel(application: Application): AndroidViewModel(application) {
 
     val readAllData: LiveData<List<Book>>
+    val getBookCount: LiveData<Int>
+    val getSumPageCount: LiveData<Int>
+    val getFirstDate: LiveData<String>
     private val repository: BookRepository
 
     init {
         val bookDao = BookDatabase.getDatabase(application).bookDao()
         repository = BookRepository(bookDao)
+        getBookCount = repository.getBookCount
+        getSumPageCount = repository.getSumPageCount
+        getFirstDate = repository.getFirstDate
         readAllData = repository.readAllData
     }
 
@@ -33,6 +39,13 @@ class BookViewModel(application: Application): AndroidViewModel(application) {
             repository.updateBook(book)
         }
     }
+
+    fun deleteBook(book: Book) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteBook(book)
+        }
+    }
+
 
 
 }

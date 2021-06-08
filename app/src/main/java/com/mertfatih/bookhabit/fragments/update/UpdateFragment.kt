@@ -1,12 +1,11 @@
 package com.mertfatih.bookhabit.fragments.update
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -42,6 +41,11 @@ class UpdateFragment : Fragment() {
             updateItem()
         }
 
+        view.delete_btn.setOnClickListener {
+            deleteBook()
+        }
+
+
 
         return view
     }
@@ -70,4 +74,20 @@ class UpdateFragment : Fragment() {
     }
 
 
+
+    private fun deleteBook() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes") { _,_ ->
+            mBookViewModel.deleteBook(args.currentBook)
+            Toast.makeText(
+                    requireContext(),
+                    "Successfully removed: ${args.currentBook.bookName}",
+                    Toast.LENGTH_LONG).show()
+            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+        }
+        builder.setNegativeButton("No") { _,_ -> }
+        builder.setTitle("Delete ${args.currentBook.bookName} ?")
+        builder.setMessage("Are you sure want to delete ${args.currentBook.bookName} ?")
+        builder.create().show()
+    }
 }

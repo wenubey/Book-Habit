@@ -1,5 +1,6 @@
 package com.mertfatih.bookhabit.fragments.list
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,14 +9,16 @@ import androidx.core.graphics.toColor
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mertfatih.bookhabit.R
+import com.mertfatih.bookhabit.fragments.update.UpdateFragment
 import com.mertfatih.bookhabit.model.Book
+import com.mertfatih.bookhabit.viewmodel.BookViewModel
 import kotlinx.android.synthetic.main.custom_row.view.*
 import java.util.logging.Handler
 
 class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>(){
 
     private var bookList = emptyList<Book>()
-
+    private lateinit var mBookViewModel: BookViewModel
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -40,12 +43,12 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>(){
 
         }
 
-
-
         holder.itemView.rowLayout.setOnClickListener {
             val action = ListFragmentDirections.actionListFragmentToUpdateFragment(currentBook)
             holder.itemView.findNavController().navigate(action)
         }
+
+
     }
 
     override fun getItemCount(): Int {
@@ -57,5 +60,8 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>(){
         notifyDataSetChanged()
     }
 
+    private fun deleteBook(book: Book) {
+        mBookViewModel.deleteBook(book)
+    }
 
 }

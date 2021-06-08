@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_listFragment_to_updateFragment"
             app:destination="@id/updateFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_statisticFragment2"
+            app:destination="@id/statisticFragment" />
     </fragment>
     <fragment
         android:id="@+id/updateFragment"
@@ -37,5 +40,14 @@
         <argument
             android:name="currentBook"
             app:argType="com.mertfatih.bookhabit.model.Book" />
+    </fragment>
+    <fragment
+        android:id="@+id/statisticFragment"
+        android:name="com.mertfatih.bookhabit.fragments.statistic.StatisticFragment"
+        android:label="fragment_statistic"
+        tools:layout="@layout/fragment_statistic" >
+        <action
+            android:id="@+id/action_statisticFragment2_to_listFragment"
+            app:destination="@id/listFragment" />
     </fragment>
 </navigation>

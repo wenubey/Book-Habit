@@ -1,10 +1,12 @@
 package com.mertfatih.bookhabit.fragments.list
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +26,7 @@ class ListFragment : Fragment() {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_list, container, false)
 
+
         val adapter = ListAdapter()
         val recyclerView = view.recyclerview
         recyclerView.adapter = adapter
@@ -33,14 +36,18 @@ class ListFragment : Fragment() {
         mBookViewModel.readAllData.observe(viewLifecycleOwner, Observer { book ->
             adapter.setData(book)
         })
-
-        view.floatingActionButton.setOnClickListener{
-            findNavController().navigate(R.id.action_listFragment_to_addFragment)
-        }
-
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity?.let { activity ->
+            activity.currentFocus?.let {
+                val inputMethodManager = getSystemService(activity.applicationContext, InputMethodManager::class.java)
+                inputMethodManager?.hideSoftInputFromWindow(view?.windowToken, 0)
+            }
+        }
+    }
 
 
 }

@@ -6,7 +6,7 @@ import com.mertfatih.bookhabit.model.Book
 
 @Database(
         entities = [Book::class],
-        version = 4,
+        version = 5,
         exportSchema = false,
 
 )
