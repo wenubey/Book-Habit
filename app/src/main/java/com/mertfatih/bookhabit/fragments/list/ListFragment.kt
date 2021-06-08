@@ -26,7 +26,6 @@ class ListFragment : Fragment() {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_list, container, false)
 
-
         val adapter = ListAdapter()
         val recyclerView = view.recyclerview
         recyclerView.adapter = adapter
@@ -48,6 +47,7 @@ class ListFragment : Fragment() {
             }
         }
     }
+
 
 
 }
